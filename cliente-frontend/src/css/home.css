@@ -1,0 +1,128 @@
+/* Header */
+.bg-dark {
+  background-color: #343a40;
+  color: #fff;
+}
+
+.py-3 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.container {
+  width: 100%;
+  margin-right: auto;
+  margin-left: auto;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.d-flex {
+  display: flex !important;
+}
+
+.align-items-center {
+  align-items: center !important;
+}
+
+.justify-content-between {
+  justify-content: space-between !important;
+}
+
+.nav {
+  display: flex;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.col-12 {
+  flex: 0 0 100%;
+  max-width: 100%;
+}
+
+.col-lg-auto {
+  flex: 0 0 auto;
+  width: auto;
+  max-width: none;
+}
+
+.text-decoration-none {
+  text-decoration: none !important;
+}
+
+/* Footer */
+.py-3 {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+
+.my-4 {
+  margin-top: 1.5rem;
+  margin-bottom: 1.5rem;
+}
+
+.border-top {
+  border-top: 1px solid #dee2e6 !important;
+}
+
+/* Other Styles */
+.text-white {
+  color: #fff !important;
+}
+
+.text-secondary {
+  color: #6c757d !important;
+}
+
+.bg-light {
+  background-color: #f8f9fa !important;
+}
+
+.text-center {
+  text-align: center !important;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.fade-in {
+  animation: fadeIn ease 1s;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.display-5 {
+  font-size: 2.5rem;
+  font-weight: 300;
+  line-height: 1.2;
+}
+
+.lead {
+  font-size: 1.25rem;
+  font-weight: 300;
+}
+
+.image-container {
+  margin-top: 1rem;
+}
+
+/* Adjust image size */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Adjustments for specific elements */
+.header-svg {
+  width: 24px;
+  height: 24px;
+}
