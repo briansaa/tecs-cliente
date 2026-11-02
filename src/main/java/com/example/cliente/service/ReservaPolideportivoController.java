@@ -7,14 +7,14 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
-import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 @RestController
 @RequestMapping("/reservapolideportivo")
-@CrossOrigin(origins = "http://localhost:3000")
 public class ReservaPolideportivoController {
 
     @Autowired
@@ -31,10 +31,20 @@ public class ReservaPolideportivoController {
     }
 
     @PostMapping("/store")
-    public ReservaPolideportivo store(@RequestBody ReservaPolideportivo reservaPolideportivo)
-    {
-        reservaPolideportivo.setId(0);
-        return reservaPolideportivoRepository.save(reservaPolideportivo);
+    public ResponseEntity<?> store(@RequestBody ReservaPolideportivo reservaPolideportivo) {
+        if (reservaPolideportivo.getFecha() == null || reservaPolideportivo.getHorario_id() == null
+                || reservaPolideportivo.getPolideportivo_id() == null || reservaPolideportivo.getUsuario_id() == null) {
+            return ResponseEntity.badRequest().body(Map.of("mensaje", "Completa fecha, polideportivo, horario y usuario."));
+        }
+        if (reservaPolideportivo.getFecha().isBefore(LocalDate.now())) {
+            return ResponseEntity.badRequest().body(Map.of("mensaje", "No se puede reservar en una fecha pasada."));
+        }
+        if (reservaPolideportivoRepository.estaOcupado(reservaPolideportivo.getPolideportivo_id(), reservaPolideportivo.getFecha(), reservaPolideportivo.getHorario_id())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("mensaje", "Ese polideportivo ya está reservado en la fecha y horario elegidos."));
+        }
+        reservaPolideportivo.setId(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(reservaPolideportivoRepository.save(reservaPolideportivo));
     }
 
     @PutMapping("/update/{id}")

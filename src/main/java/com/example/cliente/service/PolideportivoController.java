@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/polideportivos")
-@CrossOrigin(origins = "http://localhost:3000")
 public class PolideportivoController {
 
     @Autowired
@@ -28,7 +27,7 @@ public class PolideportivoController {
     @PostMapping("/store")
     public Polideportivo store(@RequestBody Polideportivo polideportivo)
     {
-        polideportivo.setId(0);
+        polideportivo.setId(null);
         return polideportivoRepository.save(polideportivo);
 
     }

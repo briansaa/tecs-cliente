@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/pabellon")
-@CrossOrigin(origins = "http://localhost:3000")
 public class PabellonController {
 
     @Autowired
@@ -30,7 +29,7 @@ public class PabellonController {
     @PostMapping("/store")
     public Pabellon store(@RequestBody Pabellon pabellon)
     {
-        pabellon.setId(0);
+        pabellon.setId(null);
         return pabellonRepository.save(pabellon);
     }
 

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { API_URL, guardarSesion } from '../config';
 import logo from '../assets/logo.png';
 import loginImageLeft from '../assets/layout.png';
 import loginImageRight from '../assets/layout.png';
@@ -24,17 +25,11 @@ function Login() {
 
     try {
 
-      const response = await axios.post('http://localhost:8090/clientes/login', formData);
-
-      if (response.data === 'Autenticación exitosa') {
-        navigate('/home');
-      } else {
-        setError('Credenciales incorrectas');
-        setTimeout(() => setError(null), 4000);
-      }
+      const response = await axios.post(`${API_URL}/clientes/login`, formData);
+      guardarSesion(response.data); // { id, codigo }
+      navigate('/home');
     } catch (error) {
-      console.error('Error en la autenticación', error);
-      setError('Credenciales incorrectas');
+      setError(error.response?.status === 401 ? 'Código o contraseña incorrectos' : 'No se pudo conectar con el servidor');
       setTimeout(() => setError(null), 4000);
     }
   };
@@ -69,6 +64,9 @@ function Login() {
                   type="text"
                   name="codigo"
                   className="form-control"
+                  id="codigo"
+                  autoComplete="username"
+                  required
                   placeholder="Ingrese su código de estudiante"
                   onChange={handleChange}
               />
@@ -81,6 +79,9 @@ function Login() {
                   type="password"
                   name="contrasena"
                   className="form-control"
+                  id="contrasena"
+                  autoComplete="current-password"
+                  required
                   placeholder="Ingrese su contraseña"
                   onChange={handleChange}
               />
@@ -88,12 +89,6 @@ function Login() {
             <button type="submit" className="btn btn-primary w-100" style={{ background: '#1e4d92', border: 'none' }}>
               Iniciar Sesión
             </button>
-            <div className="form-check mb-3">
-              <input type="checkbox" className="form-check-input" id="rememberMe" />
-              <label className="form-check-label" htmlFor="rememberMe">
-                Recordar
-              </label>
-            </div>
           </form>
           {error && <div className="alert alert-danger mt-3">{error}</div>}
         </div>

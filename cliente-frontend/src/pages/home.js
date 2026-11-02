@@ -6,12 +6,17 @@ import image2 from '../assets/polideportivobk.png';
 import loginImageLeft from '../assets/layout.png';
 import loginImageRight from '../assets/layout.png';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import { cerrarSesion, usuarioActual } from '../config';
 
 function Home() {
   return (
     <div>
       <header>
             <div className="container">
+                <div className="text-end small pt-2">
+                  Hola, <strong>{usuarioActual()?.codigo}</strong> ·{' '}
+                  <Link to="/" onClick={cerrarSesion}>Cerrar sesión</Link>
+                </div>
                 <Link to="/home" className="navbar-brand d-flex align-items-center text-center">
                     <img src={logo} alt="TECSITE Logo" width="100" height="100" className="mx-auto" />
                 </Link>

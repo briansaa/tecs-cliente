@@ -11,7 +11,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/horarios")
-@CrossOrigin(origins = "http://localhost:3000")
 public class HorarioController {
 
     @Autowired
@@ -28,7 +27,7 @@ public class HorarioController {
     @PostMapping("/store")
     public Horario horario(@RequestBody Horario horario)
     {
-        horario.setId(0);
+        horario.setId(null);
         return horarioRepository.save(horario);
     }
 

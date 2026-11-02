@@ -1,5 +1,6 @@
 package com.example.cliente.model;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 
 import lombok.Data;
@@ -13,6 +14,7 @@ public class Usuario {
 
     private Integer id;
     private String codigo;
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY) // nunca se devuelve en las respuestas
     private String contrasena;
 
     public Usuario() {

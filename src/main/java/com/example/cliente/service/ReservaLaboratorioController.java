@@ -3,15 +3,17 @@ import com.example.cliente.model.ReservaLaboratorio;
 import com.example.cliente.repository.ReservaLaboratorioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/reservalaboratorio")
-@CrossOrigin(origins = "http://localhost:3000")
 public class ReservaLaboratorioController {
 
     @Autowired
@@ -29,10 +31,20 @@ public class ReservaLaboratorioController {
     }
 
     @PostMapping("/store")
-    public ReservaLaboratorio store(@RequestBody ReservaLaboratorio reservaLaboratorio)
-    {
-        reservaLaboratorio.setId(0);
-        return reservaLaboratorioRepository.save(reservaLaboratorio);
+    public ResponseEntity<?> store(@RequestBody ReservaLaboratorio reservaLaboratorio) {
+        if (reservaLaboratorio.getFecha() == null || reservaLaboratorio.getHorario_id() == null
+                || reservaLaboratorio.getLaboratorio_id() == null || reservaLaboratorio.getUsuario_id() == null) {
+            return ResponseEntity.badRequest().body(Map.of("mensaje", "Completa fecha, laboratorio, horario y usuario."));
+        }
+        if (reservaLaboratorio.getFecha().isBefore(LocalDate.now())) {
+            return ResponseEntity.badRequest().body(Map.of("mensaje", "No se puede reservar en una fecha pasada."));
+        }
+        if (reservaLaboratorioRepository.estaOcupado(reservaLaboratorio.getLaboratorio_id(), reservaLaboratorio.getFecha(), reservaLaboratorio.getHorario_id())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT)
+                    .body(Map.of("mensaje", "Ese laboratorio ya está reservado en la fecha y horario elegidos."));
+        }
+        reservaLaboratorio.setId(null);
+        return ResponseEntity.status(HttpStatus.CREATED).body(reservaLaboratorioRepository.save(reservaLaboratorio));
     }
 
     @PutMapping("/update/{id}")
