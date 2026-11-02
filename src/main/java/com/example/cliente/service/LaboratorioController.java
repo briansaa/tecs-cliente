@@ -10,7 +10,6 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/laboratorios")
-@CrossOrigin(origins = "http://localhost:3000")
 public class LaboratorioController {
 
     @Autowired
@@ -27,7 +26,7 @@ public class LaboratorioController {
     @PostMapping("/store")
     public Laboratorio store(@RequestBody Laboratorio laboratorio)
     {
-        laboratorio.setId(0);
+        laboratorio.setId(null);
         return laboratorioRepository.save(laboratorio);
     }
 
